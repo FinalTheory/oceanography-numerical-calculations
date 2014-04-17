@@ -1,7 +1,7 @@
-Calculation_of_Marine_and_Hydrologic_Factors
+Calculation of Marine and Hydrologic Factors
 ============================================
 
-海洋要素计算编程作业
+
 
 ## 作业1：潮汐的最小二乘调和分析
 
