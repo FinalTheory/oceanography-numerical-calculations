@@ -15,5 +15,5 @@ Calculation of Marine and Hydrologic Factors
 ## 作业2： 北太平洋海区SST数据的EOF分解以及分析
 
 - 使用Basemap绘图库完成作图
-- 使用eofs工具进行EOF分解，效率更高
 - 分析写得相当水，毕竟是胡扯，还请见谅
+- 使用eofs工具进行EOF分解，效率更高；在做大规模计算时，相对与matlab程序可以减少一半的内存占用，节省十倍的时间。
