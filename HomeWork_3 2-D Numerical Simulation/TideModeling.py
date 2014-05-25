@@ -35,10 +35,14 @@ longitude = 117.5
 eps = 1e-3
 invalid = -1.e5
 
+ratio = 7. / 6.
 
 class GUI(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
+
+        self.width = tk.IntVar()
+        self.width.set(6)
         self.depthname = tk.StringVar()
         self.depthname.set(depthName)
         self.boundryname = tk.StringVar()
@@ -105,12 +109,14 @@ class GUI(tk.Tk):
     def makeNameEntry(self, frame):
         f = tk.Frame(frame)
         tk.Label(f, text=u'水深数据文件名').grid(row=0, column=0, sticky=tk.W)
-        tk.Entry(f, width=14, textvariable=self.depthname).grid(row=0, column=1)
+        tk.Entry(f, width=9, textvariable=self.depthname).grid(row=0, column=1)
         tk.Button(f, text='...', command=self.getdepthname).grid(row=0, column=2)
+        tk.Label(f, text=u'宽度', width=4).grid(row=0, column=3, sticky=tk.W)
 
         tk.Label(f, text=u'开边界数据文件名').grid(row=1, column=0, sticky=tk.W)
-        tk.Entry(f, width=14, textvariable=self.boundryname).grid(row=1, column=1)
+        tk.Entry(f, width=9, textvariable=self.boundryname).grid(row=1, column=1)
         tk.Button(f, text='...', command=self.getboundryname).grid(row=1, column=2)
+        tk.Entry(f, width=3, textvariable=self.width).grid(row=1, column=3)
         f.grid()
 
     def inputXYS(self, frame):
@@ -173,9 +179,10 @@ class GUI(tk.Tk):
         f.grid()
 
     def clean(self):
+        self.index = 0
         files = os.listdir('.')
         for i in files:
-            if i.split('.')[-1] == 'txt' or i.split('.')[-1] == 'png':
+            if i.split('.')[-1] in ['txt', 'png', 'gif', 'mod']:
                 os.remove(i)
 
     def work(self):
@@ -224,7 +231,7 @@ class GUI(tk.Tk):
         top.title(u'水深分布图')
 
         my_cmap = matplotlib.cm.get_cmap('rainbow')
-        fig = plt.figure(figsize=(6, 7))
+        fig = plt.figure(figsize=(self.width.get(), self.width.get()*ratio))
         ax = fig.add_axes([.02, .02, 1, 0.9])
         canvas = FigureCanvasTkAgg(fig, master=top)
         canvas.get_tk_widget().grid()
@@ -311,7 +318,7 @@ class GUI(tk.Tk):
 
         top = tk.Toplevel()
         top.title(u'水位&流场可视化')
-        fig = plt.figure(figsize=(6, 7))
+        fig = plt.figure(figsize=(self.width.get(), self.width.get()*ratio))
         ax = fig.add_axes([.02, .02, 1, 0.85])
         canvas = FigureCanvasTkAgg(fig, master=top)
         canvas.get_tk_widget().grid()
@@ -389,7 +396,7 @@ class GUI(tk.Tk):
         top = tk.Toplevel()
         top.title(u'同潮图')
 
-        fig = plt.figure(figsize=(6, 7))
+        fig = plt.figure(figsize=(self.width.get(), self.width.get()*ratio))
         ax = fig.add_axes([.05, .05, 0.9, 0.9])
         canvas = FigureCanvasTkAgg(fig, master=top)
         canvas.get_tk_widget().grid()
