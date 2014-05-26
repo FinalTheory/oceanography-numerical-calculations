@@ -246,11 +246,11 @@ module calculate
             end do
         end do
 
-        write(*, *) f
-        write(*, *) delta_x
-        write(*, *) delta_t
-        write(*, *) resolution, latitude
-        write(*, *) numX, numY, numSteps, numOpenNodes
+!        write(*, *) f
+!        write(*, *) delta_x
+!        write(*, *) delta_t
+!        write(*, *) resolution, latitude
+!        write(*, *) numX, numY, numSteps, numOpenNodes
         ! write(*, *) Boundary(:, :)
 
         call calculateBoundary()
@@ -417,13 +417,34 @@ module calculate
         do j = 1, numY
             do i = 1, numX
                 amplitude(i, j) = dsqrt(harmonicA(i, j)**2 + harmonicB(i, j)**2)
+                ! 判断是否是无潮点
                 if ( amplitude(i, j) < epsZero ) then
                     arg(i, j) = 0.d0
-                    cycle
+                ! 判断是否是X轴正方向
+                else if ( dabs(harmonicB(i, j)) < epsZero .and. harmonicA(i, j) >  amplitude(i, j) - epsZero ) then
+                    arg(i, j) = 0.d0
+                ! 判断是否是X轴负方向
+                else if ( dabs(harmonicB(i, j)) < epsZero .and. harmonicA(i, j) < -amplitude(i, j) + epsZero ) then
+                    arg(i, j) = PI
+                ! 判断是否是Y轴正方向
+                else if ( dabs(harmonicA(i, j)) < epsZero .and. harmonicB(i, j) <  amplitude(i, j) - epsZero ) then
+                    arg(i, j) = PI / 2.d0
+                ! 判断是否是Y轴负方向
+                else if ( dabs(harmonicA(i, j)) < epsZero .and. harmonicB(i, j) < -amplitude(i, j) + epsZero ) then
+                    arg(i, j) = PI / 2.d0 * 3.d0
+                ! 判断是否是第一象限
+                else if ( harmonicB(i, j) > 0.d0 .and. harmonicA(i, j) > 0.d0 ) then
+                    arg(i, j) = datan(harmonicB(i, j) / harmonicA(i, j))
+                ! 判断是否是第二象限
+                else if ( harmonicB(i, j) > 0.d0 .and. harmonicA(i, j) < 0.d0 ) then
+                    arg(i, j) = datan(harmonicB(i, j) / harmonicA(i, j)) + PI
+                ! 判断是否是第三象限
+                else if ( harmonicB(i, j) < 0.d0 .and. harmonicA(i, j) < 0.d0 ) then
+                    arg(i, j) = datan(harmonicB(i, j) / harmonicA(i, j)) + PI
+                ! 判断是否是第四象限
+                else if ( harmonicB(i, j) < 0.d0 .and. harmonicA(i, j) > 0.d0 ) then
+                    arg(i, j) = datan(harmonicB(i, j) / harmonicA(i, j))
                 end if
-                arg(i, j) = datan(harmonicB(i, j) / harmonicA(i, j))
-                if ( harmonicB(i, j) * dsin(arg(i, j)) < 0.d0 ) arg(i, j) = arg(i, j) + PI
-                ! if ( arg(i, j) < 0.d0 ) arg(i, j) = arg(i, j) + 2 * PI
             end do
         end do
 
