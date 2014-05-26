@@ -239,7 +239,7 @@ class GUI(tk.Tk):
         plt.title('Water Depth', fontsize=16)
         if flag:
             m = Basemap(projection='merc', llcrnrlat=lat, urcrnrlat=lat+y*res, \
-                        llcrnrlon=lon, urcrnrlon=lon+y*res, resolution='l', ax=ax)
+                        llcrnrlon=lon, urcrnrlon=lon+x*res, resolution='l', ax=ax)
             m.fillcontinents(color='black', lake_color='black')
             m.drawcoastlines(linewidth=2.0)
             m.drawmapboundary()
@@ -299,7 +299,6 @@ class GUI(tk.Tk):
 
         zeta = np.loadtxt(name_zeta)
         zeta = zeta.reshape((s, y, x))
-        np.savetxt('test.txt', zeta[0, :, :])
         u = np.loadtxt(name_u)
         u = u.reshape((s, y, x))
         v = np.loadtxt(name_v)
@@ -314,7 +313,7 @@ class GUI(tk.Tk):
         min_v = zeta[zeta > invalid].min()
         max_v = zeta[zeta > invalid].max()
         max_speed = np.sqrt((u*u + v*v).max())
-        levels = np.linspace(min_v, max_v + eps, 31)
+        levels = np.linspace(min_v, max_v, 31)
 
         top = tk.Toplevel()
         top.title(u'水位&流场可视化')
@@ -327,7 +326,7 @@ class GUI(tk.Tk):
             global CS1, CS2, Q, m, txt
             if flag:
                 m = Basemap(projection='merc', llcrnrlat=lat, urcrnrlat=lat+y*res, \
-                            llcrnrlon=lon, urcrnrlon=lon+y*res, resolution='l', ax=ax)
+                            llcrnrlon=lon, urcrnrlon=lon+x*res, resolution='l', ax=ax)
                 m.fillcontinents(color='black', lake_color='black')
                 m.drawcoastlines(linewidth=1.0)
                 m.drawmapboundary()
@@ -407,7 +406,7 @@ class GUI(tk.Tk):
 
         if flag:
             m = Basemap(projection='merc', llcrnrlat=lat, urcrnrlat=lat+y*res, \
-                        llcrnrlon=lon, urcrnrlon=lon+y*res, resolution='l', ax=ax)
+                        llcrnrlon=lon, urcrnrlon=lon+x*res, resolution='l', ax=ax)
             m.fillcontinents(color='aqua', lake_color='aqua')
             m.drawcoastlines(linewidth=2.0)
             m.drawmapboundary()

@@ -175,7 +175,7 @@ module calculate
                 i = int(Boundary(idx, 1) + epsZero)
                 j = int(Boundary(idx, 2) + epsZero)
                 boundaryWaterLevel(i, j, n) = Boundary(idx, 3) * dcos(curPhase) + Boundary(idx, 4) * dsin(curPhase)
-                ! write(*, *) Boundary(idx, 3), Boundary(idx, 4), boundaryWaterLevel(i, j, n)
+                ! write(*, *) boundaryWaterLevel(i, j, n)
             end do
         end do
 
@@ -193,7 +193,7 @@ module calculate
         allocate(u(numX, numY, numSteps + 1))
         allocate(v(numX, numY, numSteps + 1))
         allocate(zeta(numX, numY, numSteps + 1))
-        allocate(boundaryWaterLevel(numX, numY, numSteps + 1))
+        allocate(boundaryWaterLevel(numX, numY, numSteps + 2))
 
         ! 初始纬度选取为模拟区域的中位线
         theta = ( numY / 2 * resolution + latitude ) * conv
@@ -245,6 +245,13 @@ module calculate
                 if ( mask(i, j) == 0 .or. mask(i, j + 1) == 0 ) ctrlV(i, j) = 0
             end do
         end do
+
+        write(*, *) f
+        write(*, *) delta_x
+        write(*, *) delta_t
+        write(*, *) resolution, latitude
+        write(*, *) numX, numY, numSteps, numOpenNodes
+        ! write(*, *) Boundary(:, :)
 
         call calculateBoundary()
 
@@ -473,13 +480,6 @@ program TideModeling
 
     call parseParameters(fileidx)
     call initData()
-
-!    write(*, *) f
-!    write(*, *) delta_x
-!    write(*, *) delta_t
-!    write(*, *) resolution, latitude
-!    write(*, *) numX, numY, numSteps, numOpenNodes
-!    write(*, *) Boundary(:, :)
 
     do loopCounter = 1, maxLoops
 
