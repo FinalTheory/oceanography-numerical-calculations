@@ -251,7 +251,7 @@ module calculate
 !        write(*, *) delta_t
 !        write(*, *) resolution, latitude
 !        write(*, *) numX, numY, numSteps, numOpenNodes
-        ! write(*, *) Boundary(:, :)
+!        write(*, *) Boundary(:, :)
 
         call calculateBoundary()
 
@@ -419,7 +419,7 @@ module calculate
                 amplitude(i, j) = dsqrt(harmonicA(i, j)**2 + harmonicB(i, j)**2)
                 ! 判断是否是无潮点
                 if ( amplitude(i, j) < epsZero ) then
-                    arg(i, j) = 0.d0
+                    arg(i, j) = -1.1d5
                 ! 判断是否是X轴正方向
                 else if ( dabs(harmonicB(i, j)) < epsZero .and. harmonicA(i, j) >  amplitude(i, j) - epsZero ) then
                     arg(i, j) = 0.d0
@@ -447,6 +447,8 @@ module calculate
                 end if
             end do
         end do
+
+        arg = arg / PI * 180.d0
 
         do j = 1, numY
             do i = 1, numX

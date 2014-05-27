@@ -341,6 +341,7 @@ class GUI(tk.Tk):
                 Q = ax.quiver(lons, lats, u[0, :, :], v[0, :, :])
 
             cb = plt.colorbar(CS2, drawedges=True, ticks=levels[::2])
+            cb.set_clim(min_v, max_v)
             cb.ax.set_yticklabels(['%.1f' % i for i in levels[::2]])
             txt = ax.set_title('Water Level and Flow Velocity at Step ' + str(1), fontsize=15)
             plt.quiverkey(Q, 1.15, 1.05, max_speed, ('%.2f m/s' % max_speed), labelpos='W')
