@@ -377,9 +377,9 @@ class GUI(tk.Tk):
             flag = True
         else:
             flag = False
-        amplitude = np.loadtxt('amplitude.txt')
+        amplitude = np.loadtxt('output_Amplitude_' + ('%03d' % self.index) + '.txt')
         amplitude = np.ma.array(amplitude, mask=amplitude < invalid)
-        arg = np.loadtxt('arg.txt')
+        arg = np.loadtxt('output_Arg_' + ('%03d' % self.index) + '.txt')
         arg = np.ma.array(arg, mask=arg < invalid)
         lon = self.longitude.get()
         lat = self.latitude.get()

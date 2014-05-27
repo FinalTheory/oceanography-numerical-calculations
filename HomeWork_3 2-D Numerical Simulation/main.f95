@@ -35,7 +35,8 @@ module constants
     implicit none
 
     !--------------------常量设定部分--------------------
-
+    ! 设置异常值
+    real(kind=8), parameter :: invalid = -1.1d6
     ! 数值模拟的最大迭代次数
     integer, parameter :: maxLoops = 30
     ! 迭代精度控制变量、正负精度控制变量、常数π
@@ -62,6 +63,8 @@ module constants
     integer :: enableAdvection, enableViscosity, enableFriction, enableCoriolisForce
     ! 设定是否使用自动变化的x方向空间步长；
     integer :: autoXStep
+    ! 文件编号
+    integer :: fileidx
 
     !--------------------临时变量声明--------------------
 
@@ -69,9 +72,9 @@ module constants
 
     contains
 
-    subroutine parseParameters( fileidx )
+    subroutine parseParameters()
         implicit none
-        integer :: ioStatus = 0, fileidx
+        integer :: ioStatus = 0
         character(len=80) :: buf, name1, name2
 
         if ( iargc() /= 17 ) then
@@ -394,9 +397,12 @@ module calculate
     ! 计算调和常数并输出
     subroutine outputHarmonic()
         implicit none
-        character(len = 80) :: str
+        character(len = 80) :: str, filename1, filename2
         real(kind=8), dimension(numX, numY) :: harmonicA, harmonicB, amplitude, arg
 
+        write(str, '(I3.3)') fileidx
+        filename1 = 'output_Amplitude_' // trim(str) // '.txt'
+        filename2 = 'output_Arg_' // trim(str) // '.txt'
         write(str, '(I0)') numX
 
         harmonicA = 0.d0
@@ -419,7 +425,7 @@ module calculate
                 amplitude(i, j) = dsqrt(harmonicA(i, j)**2 + harmonicB(i, j)**2)
                 ! 判断是否是无潮点
                 if ( amplitude(i, j) < epsZero ) then
-                    arg(i, j) = -1.1d5
+                    arg(i, j) = invalid
                 ! 判断是否是X轴正方向
                 else if ( dabs(harmonicB(i, j)) < epsZero .and. harmonicA(i, j) >  amplitude(i, j) - epsZero ) then
                     arg(i, j) = 0.d0
@@ -453,18 +459,18 @@ module calculate
         do j = 1, numY
             do i = 1, numX
                 if ( mask(i, j) == 0 ) then
-                    amplitude(i, j) = -1.1d5
-                    arg(i, j) = -1.1d5
+                    amplitude(i, j) = invalid
+                    arg(i, j) = invalid
                 end if
             end do
         end do
 
-        open(14, file = 'amplitude.txt', status = 'replace', action = 'write')
+        open(14, file = filename1, status = 'replace', action = 'write')
         do j = numY, 1, -1
             write(14, '(' // str // '(1X, F15.6))') ( amplitude(i, j), i = 1, numX )
         end do
         close(14)
-        open(14, file = 'arg.txt', status = 'replace', action = 'write')
+        open(14, file = filename2, status = 'replace', action = 'write')
         do j = numY, 1, -1
             write(14, '(' // str // '(1X, F15.6))') ( arg(i, j), i = 1, numX )
         end do
@@ -496,12 +502,12 @@ end subroutine
 program TideModeling
     use calculate
     implicit none
-    integer :: loopCounter, fileidx
+    integer :: loopCounter
     ! 定义迭代精度控制变量
     real(kind=8) :: accuracy
     character(len=80) :: filename, str
 
-    call parseParameters(fileidx)
+    call parseParameters()
     call initData()
 
     do loopCounter = 1, maxLoops
@@ -530,9 +536,9 @@ program TideModeling
 
     do j = 1, numY
         do i = 1, numX
-            if ( ctrlU(i, j) == 0 ) u(i, j, :) = -1.1d5
-            if ( ctrlV(i, j) == 0 ) v(i, j, :) = -1.1d5
-            if ( mask(i, j) == 0 ) zeta(i, j, :) = -1.1d5
+            if ( ctrlU(i, j) == 0 ) u(i, j, :) = invalid
+            if ( ctrlV(i, j) == 0 ) v(i, j, :) = invalid
+            if ( mask(i, j) == 0 ) zeta(i, j, :) = invalid
         end do
     end do
 
