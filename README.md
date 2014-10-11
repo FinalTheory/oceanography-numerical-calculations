@@ -3,7 +3,7 @@ Calculation of Marine and Hydrologic Factors
 
 
 
-## 作业1：潮汐的最小二乘调和分析
+## 一、[潮汐的最小二乘调和分析](http://nbviewer.ipython.org/github/FinalTheory/Calculation_of_Marine_and_Hydrologic_Factors/blob/master/HomeWork_1%20Harmonic%20Analysis%20and%20Prediction%20of%20Tides/HomeWork1.ipynb)
 
 - 基于Fortran与Python的混合编程
 - 使用Numpy的Array对象作为通用的数据存储容器
@@ -12,13 +12,13 @@ Calculation of Marine and Hydrologic Factors
 - 所有涉及的数据文件和代码均可以从该Repo中获取，也可以直接打包下载
 
 
-## 作业2：北太平洋海区SST数据的EOF分解以及分析
+## 二、[北太平洋海区SST数据的EOF分解以及分析](http://nbviewer.ipython.org/github/FinalTheory/Calculation_of_Marine_and_Hydrologic_Factors/blob/master/HomeWork_2%20EOF%20Decompose%20and%20Analysis/HomeWork2.ipynb)
 
 - 使用Basemap绘图库完成作图
 - 分析写得相当水，毕竟是胡扯，还请见谅
 - 使用eofs工具进行EOF分解，效率更高；在做大规模计算时，相对与matlab程序可以减少一半的内存占用，节省十倍的时间
 
-## 作业3：二维潮波数值模拟程序
+## 三、二维潮波数值模拟程序
 
 - 使用Fortran语言完成命令行运算程序的编写
 - 该运算核心接受17个输入参数，用以决定是否忽略运动方程中的某些项，以及各个系数的取值等

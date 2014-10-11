@@ -108,7 +108,7 @@ def get_variables(date_str, predict=['m_2', 's_2', 'k_1', 'o_1', 'm_4', 'ms_4'],
          datetime(year=date.year, month=1, day=1)).days
     Y = int((date.year - 1901) / 4)
     y = date.year
-    t = date.hour
+    t = date.hour + date.minute / 60. + date.second / 3600.
 
     sigma_tau = 14.49205212
     sigma_s = 0.54901653

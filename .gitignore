@@ -213,3 +213,9 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+
+#其他文件
+*.txt
+*.pyc
+*.raw_data

@@ -40,7 +40,7 @@ module constants
     ! 数值模拟的最大迭代次数
     integer, parameter :: maxLoops = 30
     ! 迭代精度控制变量、正负精度控制变量、常数π
-    real(kind=8), parameter :: eps = 1d-2, epsZero = 1e-4, PI = 3.14159265358979323846d0, conv = PI / 180.d0
+    real(kind=8), parameter :: eps = 1d-3, epsZero = 1e-4, PI = 3.14159265358979323846d0, conv = PI / 180.d0
     ! 地球半径（米）、自转角速度（rad/s）、重力加速度(m/s^2)
     real(kind=8), parameter :: earthRadius = 6378.1d3, Omega = 2.d0 * PI / ( 24.d0 * 3600.d0 ), g = 9.8d0
     ! 时间步数为numSteps、开边界节点数量为numOpenNodes
