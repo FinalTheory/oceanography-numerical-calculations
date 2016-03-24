@@ -3,7 +3,7 @@ Calculation of Marine and Hydrologic Factors
 
 
 
-## 一、[潮汐的最小二乘调和分析](http://nbviewer.ipython.org/github/FinalTheory/oceanography-numerical-calculations/tree/master/Harmonic%20Analysis/HomeWork1.ipynb)
+## 一、[潮汐的最小二乘调和分析](http://nbviewer.jupyter.org/github/FinalTheory/oceanography-numerical-calculations/blob/master/Harmonic%20Analysis/HomeWork1.ipynb)
 
 - 基于Fortran与Python的混合编程
 - 使用Numpy的Array对象作为通用的数据存储容器
@@ -12,7 +12,7 @@ Calculation of Marine and Hydrologic Factors
 - 所有涉及的数据文件和代码均可以从该Repo中获取，也可以直接打包下载
 
 
-## 二、[北太平洋海区SST数据的EOF分解以及分析](http://nbviewer.ipython.org/github/FinalTheory/oceanography-numerical-calculations/tree/master/EOF%20Analysis/HomeWork2.ipynb)
+## 二、[北太平洋海区SST数据的EOF分解以及分析](http://nbviewer.jupyter.org/github/FinalTheory/oceanography-numerical-calculations/blob/master/EOF%20Analysis/HomeWork2.ipynb)
 
 - 使用Basemap绘图库完成作图
 - 分析写得相当水，还请见谅
